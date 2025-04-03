@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.js Sketch Embedder</title>
+    <style>
+        <style>
+    body { 
+        font-family: Arial, sans-serif; 
+        text-align: center; 
+        margin: 50px; 
+        background-color: #f4f4f4; /* Light gray background */
+    }
+    input, button { 
+        padding: 10px; 
+        margin: 10px; 
+        width: 80%; 
+        max-width: 400px; 
+        border-radius: 5px; /* Rounded edges */
+        border: 1px solid #ccc;
+    }
+    button { 
+        background-color: #007BFF; /* Blue button */
+        color: white; 
+        border: none;
+        cursor: pointer;
+    }
+    button:hover { 
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+    iframe { 
+        margin-top: 20px; 
+        width: 80%; 
+        height: 300px; 
+        border: 1px solid #ccc; 
+        border-radius: 5px;
+    }
+</style>
+    </style>
+</head>
+<body>
+    <h2>p5.js Sketch Embedder</h2>
+    <input type="text" id="sketchURL" placeholder="Enter p5.js Sketch URL">
+    <button onclick="embedSketch()">Generate Embed Code</button>
+    <p id="embedCode"></p>
+    <iframe id="preview"></iframe>
+
+    <script>
+        function embedSketch() {
+            let url = document.getElementById("sketchURL").value;
+            let embedCode = `<iframe src="${url}" width="600" height="400"></iframe>`;
+            document.getElementById("embedCode").innerText = embedCode;
+            document.getElementById("preview").src = url;
+        }
+    </script>
+</body>
+</html>
+
