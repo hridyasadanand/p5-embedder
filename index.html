@@ -1,59 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>p5.js Sketch Embedder</title>
-    <style>
-        <style>
-    body { 
-        font-family: Arial, sans-serif; 
-        text-align: center; 
-        margin: 50px; 
-        background-color: #f4f4f4; /* Light gray background */
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>p5.js Sketch Embedder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+      background-color: #f4f4f4; /* Light gray background */
     }
-    input, button { 
-        padding: 10px; 
-        margin: 10px; 
-        width: 80%; 
-        max-width: 400px; 
-        border-radius: 5px; /* Rounded edges */
-        border: 1px solid #ccc;
+    input,
+    button {
+      padding: 10px;
+      margin: 10px;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 5px; /* Rounded edges */
+      border: 1px solid #ccc;
     }
-    button { 
-        background-color: #007BFF; /* Blue button */
-        color: white; 
-        border: none;
-        cursor: pointer;
+    button {
+      background-color: #007bff; /* Blue button */
+      color: white;
+      border: none;
+      cursor: pointer;
     }
-    button:hover { 
-        background-color: #0056b3; /* Darker blue on hover */
+    button:hover {
+      background-color: #0056b3; /* Darker blue on hover */
     }
-    iframe { 
-        margin-top: 20px; 
-        width: 80%; 
-        height: 300px; 
-        border: 1px solid #ccc; 
-        border-radius: 5px;
+    iframe {
+      margin-top: 20px;
+      width: 80%;
+      max-width: 600px;
+      height: 400px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
-</style>
-    </style>
+    #error {
+      color: red;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-    <h2>p5.js Sketch Embedder</h2>
-    <input type="text" id="sketchURL" placeholder="Enter p5.js Sketch URL">
-    <button onclick="embedSketch()">Generate Embed Code</button>
-    <p id="embedCode"></p>
-    <iframe id="preview"></iframe>
+  <h2>p5.js Sketch Embedder</h2>
+  <input type="text" id="sketchURL" placeholder="Enter p5.js Sketch URL" />
+  <button onclick="embedSketch()">Generate Embed Code</button>
+  <p id="embedCode"></p>
+  <p id="error"></p>
+  <iframe id="preview"></iframe>
 
-    <script>
-        function embedSketch() {
-            let url = document.getElementById("sketchURL").value;
-            let embedCode = `<iframe src="${url}" width="600" height="400"></iframe>`;
-            document.getElementById("embedCode").innerText = embedCode;
-            document.getElementById("preview").src = url;
-        }
-    </script>
+  <script>
+    function isValidUrl(string) {
+      try {
+        new URL(string);
+        return true;
+      } catch (_) {
+        return false;
+      }
+    }
+
+    function embedSketch() {
+      const url = document.getElementById("sketchURL").value.trim();
+      const errorEl = document.getElementById("error");
+      const embedCodeEl = document.getElementById("embedCode");
+      const preview = document.getElementById("preview");
+
+      if (!url) {
+        errorEl.textContent = "Please enter a URL.";
+        embedCodeEl.textContent = "";
+        preview.src = "";
+        return;
+      }
+
+      if (!isValidUrl(url)) {
+        errorEl.textContent = "Please enter a valid URL.";
+        embedCodeEl.textContent = "";
+        preview.src = "";
+        return;
+      }
+
+      errorEl.textContent = "";
+      const embedCode = `<iframe src="${url}" width="600" height="400" frameborder="0" allowfullscreen></iframe>`;
+      embedCodeEl.textContent = embedCode;
+      preview.src = url;
+    }
+  </script>
 </body>
 </html>
-
